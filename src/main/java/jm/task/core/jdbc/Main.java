@@ -4,6 +4,8 @@ import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.service.UserService;
 import jm.task.core.jdbc.service.UserServiceImpl;
 
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
         /*Алгоритм работы приложения:
@@ -24,15 +26,24 @@ public class Main {
         userService.createUsersTable (); // создаю таблицу
 
         //---Занесение в таблицу людей---//
-        userService.saveUser(user1.getName(),user1.getLastName(),user1.getAge());
-        userService.saveUser(user2.getName(),user2.getLastName(),user2.getAge());
-        userService.saveUser(user3.getName(),user3.getLastName(),user3.getAge());
-        userService.saveUser(user4.getName(),user4.getLastName(),user4.getAge());
+        saveUserExtension(user1,userService);
+        saveUserExtension(user2,userService);
+        saveUserExtension(user3,userService);
+        saveUserExtension(user4,userService);
 
-        userService.getAllUsers();//Получение всех User из базы и вывод в консоль
+        List<User> userList = userService.getAllUsers();//Получение всех User из базы и вывод в консоль
+
+        for (User text : userList)
+        {
+            System.out.println(text.toString());
+        }
 
         userService.cleanUsersTable(); //Очистка таблицы User(ов)
 
         userService.dropUsersTable(); // удаление таблицы
+    }
+    public static void saveUserExtension(User user,UserService userService) {
+        userService.saveUser(user.getName(),user.getLastName(),user.getAge());
+        System.out.println(new StringBuilder().append("User с именем – ").append(user.getName()).append(" добавлен в базу данных"));
     }
 }
