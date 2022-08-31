@@ -44,7 +44,6 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.setString(2, lastName);
             preparedStatement.setByte(3, age);
             preparedStatement.executeUpdate();
-            System.out.println(new StringBuilder().append("User с именем – ").append(name).append(" добавлен в базу данных"));
         } catch (SQLException | NullPointerException exception) {
             exception.printStackTrace();
         }
@@ -62,18 +61,16 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public List<User> getAllUsers() {
         List<User> listUser = new ArrayList<>();
-        User user = new User();
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM `Persons`");
-
             while (resultSet.next()) {
+                User user = new User();
                 user.setId(resultSet.getLong(1));
                 user.setName(resultSet.getString(2));
                 user.setLastName(resultSet.getString(3));
                 user.setAge(resultSet.getByte(4));
                 listUser.add(user);
-                System.out.println(user.toString());
             }
         } catch (SQLException exception) {
             exception.printStackTrace();
